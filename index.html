@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="birdFightApp">
+<head>
+<meta charset="utf-8">
+<title>Raven vs. Falcon: The Ultimate Aerial Showdown</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #2b3e2b;
+    background-color: #f4f9f4;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #2e7d32;
+  }
+  h1, h2 {
+    color: #1b5e20;
+    border-bottom: 2px solid #fbc02d;
+    padding-bottom: 8px;
+  }
+  .video-container {
+    text-align: center;
+    margin-bottom: 30px;
+    background-color: #fffde7;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #fbc02d;
+  }
+  video {
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(46, 125, 50, 0.2);
+  }
+  .fallback-link {
+    display: inline-block;
+    background-color: #2e7d32;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  .fallback-link:hover {
+    background-color: #1b5e20;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #ffffff;
+  }
+  th, td {
+    border: 1px solid #c8e6c9;
+    padding: 12px;
+    text-align: left;
+  }
+  th {
+    background-color: #2e7d32;
+    color: #ffffff;
+  }
+  tr:nth-child(even) {
+    background-color: #f1f8f1;
+  }
+  ol, p {
+    color: #333333;
+  }
+  strong {
+    color: #e65100;
+  }
+  .controls-box {
+    background: #e8f5e9;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border: 1px solid #a5d6a7;
+  }
+  .controls-box label {
+    font-weight: bold;
+    color: #1b5e20;
+  }
+</style>
+</head>
+<body ng-controller="FightController">
+
+  <h1>{{ appTitle }}</h1>
+
+  <div class="video-container">
+    <video controls>
+      <source ng-src="{{ videoUrl }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <br>
+    <a class="fallback-link" ng-href="{{ videoUrl }}" target="_blank">Watch Generated Video Directly</a>
+  </div>
+
+  <div class="controls-box">
+    <label for="highlightFilter">Filter Comparison Table:</label>
+    <input type="text" id="highlightFilter" ng-model="searchFeature" placeholder="e.g. Size, Intelligence..." style="padding: 6px; width: 250px; margin-left: 10px; border: 1px solid #2e7d32; border-radius: 4px;">
+  </div>
+
+  <p>When pitting a <strong>raven</strong> against a <strong>falcon</strong> (such as a large Peregrine or Gyrfalcon) in a fight, the outcome heavily favors the <strong>raven</strong> in most realistic scenarios.</p>
+
+  <p>While falcons are legendary aerial acrobats and peerless high-speed hunters, raptor behavior and anatomy give ravens distinct advantages in an overall confrontation.</p>
+
+  <h2>Combat Advantages: Raven vs. Falcon</h2>
+
+  <table>
+    <tr>
+      <th>Feature</th>
+      <th>Raven (Common Raven)</th>
+      <th>Falcon (e.g., Peregrine / Gyrfalcon)</th>
+    </tr>
+    <tr ng-repeat="item in comparisons | filter:searchFeature">
+      <td><strong>{{ item.feature }}</strong></td>
+      <td>{{ item.raven }}</td>
+      <td>{{ item.falcon }}</td>
+    </tr>
+  </table>
+
+  <h2>Why the Raven Wins</h2>
+  <ol>
+    <li ng-repeat="reason in winningReasons">
+      <strong>{{ reason.title }}:</strong> {{ reason.description }}
+    </li>
+  </ol>
+
+  <h2>The Falcon's Only Path to Victory</h2>
+  <p>A falcon's sole advantage lies in surprise and velocity. If a large falcon (such as a powerful Gyrfalcon) executes a stealthy, high-speed stoop from directly above and strikes the raven with a glancing or direct blow mid-air, it could incapacitate or kill it instantly.</p>
+
+  <p>However, if the first strike misses or turns into an extended aerial duel, the raven's intelligence, toughness, and superior close-quarters mobility typically allow it to dominate or drive the falcon away.</p>
+
+  <script>
+    angular.module('birdFightApp', [])
+      .controller('FightController', ['$scope', '$sce', function($scope, $sce) {
+        $scope.appTitle = "Raven vs. Falcon: The Ultimate Aerial Showdown";
+        $scope.videoUrl = $sce.trustAsResourceUrl("http://googleusercontent.com/generated_video_content/7869717904145491953");
+        
+        $scope.comparisons = [
+          {
+            feature: "Size & Build",
+            raven: "Heavier, bulkier, robust build; powerful neck and heavily armored-feeling plumage.",
+            falcon: "Streamlined, aerodynamic, built for speed rather than grappling."
+          },
+          {
+            feature: "Beak & Bite",
+            raven: "Massive, thick, multi-purpose tool capable of bone-crushing force and severe tearing.",
+            falcon: "Hooked raptor beak optimized for severing spinal cords of flying prey."
+          },
+          {
+            feature: "Intelligence",
+            raven: "Exceptionally high; problem-solving, strategic cooperation, and tactical awareness.",
+            falcon: "Instinct-driven predatory prowess and exceptional spatial tracking."
+          },
+          {
+            feature: "Fighting Style",
+            raven: "Mobbing, wrestling, tug-of-war, and wearing opponents down.",
+            falcon: "High-altitude stoops (dives) targeting airborne prey."
+          }
+        ];
+
+        $scope.winningReasons = [
+          {
+            title: "Agility in Close Quarters",
+            description: "Falcons rely heavily on momentum and speed. In a high-speed 'stoop' (dive), a falcon can strike with devastating force. However, if the fight transitions into a slow-speed, close-quarters grappling match or ground scuffle, the falcon loses its primary advantage. Ravens are hyper-maneuverable in tight spaces, upside-down flight, and rolling dogfights."
+          },
+          {
+            title: "Intelligence and Tactics",
+            description: "Corvids are notorious for harassing and mobbing much larger birds of prey (like eagles and hawks) in the wild, often working in pairs or groups. A raven understands spatial awareness and psychological warfare—feigning retreats, counter-attacking blind spots, and outsmarting raw predatory instinct."
+          },
+          {
+            title: "Physical Durability and Beak Power",
+            description: "Ravens possess massive, heavy-duty bills designed for scavenging and breaking tough materials. A falcon's skeleton and frame are relatively lightweight to maximize flight speed, making them more fragile when subjected to a direct wrestling match or prolonged physical punishment from a robust corvid."
+          }
+        ];
+      }]);
+  </script>
+
+</body>
+</html>
